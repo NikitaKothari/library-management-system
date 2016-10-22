@@ -1,0 +1,307 @@
+<div>
+	
+	<div class="row">
+		<div class="col-md-3">
+			 <div class="list-group">
+			 	<a href="javaScript:void(0);" class="list-group-item" ng-click="addBookClick()">Add Book</a>
+			 	<a href="javaScript:void(0);" class="list-group-item" ng-click="addBorrowerClick()">Add Borrower</a>
+		     </div>
+		</div>
+		
+		<div class="col-md-6 searchBox" ng-show="operation=='search'">
+			<div>
+				<h4>Search for book</h4>
+				<div class="row">
+					<div class="col-sm-3"><label>Search Text</label></div>
+					<div class="col-sm-9">
+						<input focus="true" ng-model="searchText" type="text" class="form-control" placeholder="Search" aria-describedby="search">
+					</div>
+				</div>
+				<div class="error" ng-show="isSearchEmpty">Enter valid text</div>
+				
+				<div class="row">
+					<div class="pull-right topMargin10 rightMargin5">
+						<button ng-click="searchByKey(searchText)" type="submit" class="btn btn-warning">
+							Key
+						</button>
+					</div>
+					<div class="pull-right topMargin10 rightMargin5">
+						<button ng-click="searchByAutherName(searchText)" type="submit" class="btn btn-warning">
+							Author Name
+						</button>
+					</div>
+					<div class="pull-right topMargin10 rightMargin5">
+						<button ng-click="searchByTitle(searchText)" type="submit" class="btn btn-warning">
+							Title
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-6 searchBox" ng-show="operation=='checkoutByBook'">
+			<div>
+				<h4>Check out by Book</h4>
+				<div class="row">
+					<div class="col-sm-3"><label>Enter ISBN</label></div>
+					<div class="col-sm-9">
+						  <input ng-model="isbn" type="text" class="form-control" placeholder="ISBN" aria-describedby="isbn">
+					</div>
+				</div>
+				<div ng-show="showErrorForBook">
+					<span class="error">Selected book available in library</span>
+				</div>
+				<div ng-show="showErrorForInvalidBook && !showErrorForBook">
+					<span class="error">Enter valid ISBN</span>
+				</div>
+				<div class="pull-right topMargin10">
+					<button ng-click="checkoutByIsbn(isbn)" type="submit" class="btn btn-warning">
+						Checkout
+					</button>
+				</div>
+			</div>
+		</div>
+			
+		<div class="col-md-6 searchBox" ng-show="operation=='checkoutByCardId'">
+			<div>
+				<h4>Check out By Borrower</h4>
+				<div class="row">
+					<div class="col-sm-3">
+						<label>Enter Card Id</label>
+					</div>
+					<div class="col-sm-9">
+					  <input ng-model="cardId" type="text" class="form-control" placeholder="Card Id" aria-describedby="cardId">
+					</div>
+				</div>
+				<div ng-show="showBorrowerError">
+				  	<span class="error">Borrower doesn't borrow any book</span>
+				</div>
+				<div ng-show="showBorrowerInValidError && !showBorrowerError">
+				  	<span class="error">Enter valid borrower card id</span>
+				</div>
+				<div class="pull-right topMargin10"><button ng-click="checkoutByCardId(cardId)" type="submit" class="btn btn-warning">
+					Checkout
+				</button></div>
+			</div>			
+		</div>
+		
+		<div class="col-md-6 searchBox" ng-show="operation=='payDue'">
+			<div>
+				<h4>Pay Due</h4>
+				<div class="row">
+					<div class="col-sm-3">
+						<label>Enter Card Id</label>
+					</div>
+					<div class="col-sm-9">
+					  <input ng-model="cardId" type="text" class="form-control" placeholder="Card Id" aria-describedby="cardId">
+					</div>
+				</div>
+				<div ng-show="showPayDueError">
+					  <span class="error">No payment due for this borrower</span>
+				</div>
+				<div ng-show="showPayDueInvalidError">
+					  <span class="error">Enter valid card id</span>
+				</div>
+				<div class="pull-right topMargin10"><button ng-click="payDue(cardId)" type="submit" class="btn btn-warning">
+						Pay Due
+				</button></div>
+			</div>			
+		</div>
+		
+		<div class="col-md-3">
+			<div class="list-group">
+			  <a href="javaScript:void(0);" class="list-group-item" ng-click="operation='search'">Search For Book</a>
+			  <a href="javaScript:void(0);" class="list-group-item" ng-click="operation='checkoutByBook'">Checkout By Book</a>
+			  <a href="javaScript:void(0);" class="list-group-item" ng-click="operation='checkoutByCardId'">Checkout By Borrower</a>
+			  <a href="javaScript:void(0);" class="list-group-item" ng-click="operation='payDue'">Pay Due</a>
+		    </div>
+		</div>
+	</div>
+	
+	<div style="display:none;">
+	    <div class="md-dialog-container" id="addBook">
+		     <md-dialog class="dialog">
+				<div class="modal-header">
+		            <h3 class="modal-title" id="modal-title">Add Book</h3>
+		        </div>
+		        <div class="modal-body" id="modal-body">
+					<form name="bookForm" class="form-horizontal" novalidate>
+					  <div class="form-group" ng-class="{ 'has-error': bookForm.isbn.$touched && bookForm.isbn.$invalid }">
+					    <label for="isbn" class="col-sm-4">ISBN</label>
+					    <div class="col-sm-8">
+					      <input ng-model="book.isbn" type="text" class="form-control" id="isbn" name="isbn" placeholder="ISBN" required="true"></input>
+					      <span class="error" ng-show="isDuplicateBook">Enter unique ISBN</span>
+					      <div class="help-block" ng-messages="bookForm.isbn.$error" ng-if="bookForm.isbn.$touched">
+					        <p ng-message="required">Enter valid ISBN</p>
+					      </div>
+					    </div>
+					  </div>
+					  <div class="form-group" ng-class="{ 'has-error': bookForm.title.$touched && bookForm.title.$invalid }">
+					    <label for="title" class="col-sm-4">Title</label>
+					    <div class="col-sm-8">
+					      <input ng-model="book.title" type="text" class="form-control" id="title" name="title"  placeholder="Title" required="true"></input>
+					      <div class="help-block" ng-messages="bookForm.title.$error" ng-if="bookForm.title.$touched">
+					        <p ng-message="required">Enter valid Title</p>
+					      </div>
+					    </div>
+					  </div>
+					  <div class="form-group" ng-class="{ 'has-error': bookForm.authorName.$touched && bookForm.authorName.$invalid }">
+					    <label for="authorName" class="col-sm-4">Authors Names</label>
+					    <div class="col-sm-8">
+					      <input type="text" ng-model="book.authers" class="form-control" id="authorName" name="authorName" placeholder="Author name" required="true"></input>
+					      <div class="help-block" ng-messages="bookForm.authorName.$error" ng-if="bookForm.authorName.$touched">
+					        <p ng-message="required">Enter valid Author name</p>
+					      </div>
+					    </div>
+					  </div>
+					  <div class="form-group" ng-class="{ 'has-error': bookForm.bookUrl.$touched && bookForm.bookUrl.$invalid }">
+					    <label for="bookUrl" class="col-sm-4">Url</label>
+					    <div class="col-sm-8">
+					      <input ng-model="book.url" type="text" class="form-control" id="bookUrl" name="bookUrl" placeholder="http://book.pdf" required="true"></input>
+					      <div class="help-block" ng-messages="bookForm.bookUrl.$error" ng-if="bookForm.bookUrl.$touched">
+					        <p ng-message="required">Enter valid URL</p>
+					      </div>
+					    </div>
+					  </div>
+					  <div class="form-group" ng-class="{ 'has-error': bookForm.pages.$touched && bookForm.pages.$invalid }">
+					    <label for="pages" class="col-sm-4">Number of Pages</label>
+					    <div class="col-sm-8">
+					      <input ng-model="book.numberOfPages" type="number" class="form-control" id="pages" name="pages" placeholder="120" required="true"></input>
+					      <div class="help-block" ng-messages="bookForm.pages.$error" ng-if="bookForm.pages.$touched">
+					        <p ng-message="required">Enter valid number of pages</p>
+					      </div>
+					    </div>
+					  </div>
+					  <div class="form-group" ng-class="{ 'has-error': bookForm.publication.$touched && bookForm.publication.$invalid }">
+					    <label for="publication" class="col-sm-4">Publication</label>
+					    <div class="col-sm-8">
+					      <input ng-model="book.publication" type="text" class="form-control" id="publication" name="publication" placeholder="Publication" required="true"></input>
+					      <div class="help-block" ng-messages="bookForm.publication.$error" ng-if="bookForm.publication.$touched">
+					        <p ng-message="required">Enter valid publication</p>
+					      </div>
+					    </div>
+					  </div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<div class="form-group">
+				    <div class="col-sm-offset-0 col-sm-12">
+				      <span><button ng-click="bookForm.$valid ? addBook() : ''" type="submit" class="btn btn-primary">Add Book</button></span>
+				      <span><button ng-click="cancel()" type="submit" class="btn btn-danger">Cancel</button></span>
+				    </div>
+			    </div>
+			</div>
+		  </md-dialog>
+	  	</div>
+	 </div>
+	 
+	 <div style="display:none">
+    	<div class="md-dialog-container" id="addBorrower">
+      		<md-dialog>
+      			<div class="modal-header">
+		            <h3 class="modal-title" id="modal-title">Add Borrower</h3>
+		        </div>
+		        <div class="modal-body" id="modal-body">
+					<form class="form-horizontal" name="borrowerform" novalidate>
+						<div class="form-group" ng-class="{ 'has-error': borrowerform.firstName.$touched && borrowerform.firstName.$invalid }">
+						  <label for="firstName" class="col-sm-4">First Name</label>
+						  <div class="col-sm-8">
+						    <input ng-model="borrower.firstName" type="text" class="form-control" id="firstName" name="firstName" placeholder="First Name" required="true"></input>
+						    <div class="help-block" ng-messages="borrowerform.firstName.$error" ng-if="borrowerform.firstName.$touched">
+						        <p ng-message="required">Enter valid first name</p>
+						    </div>
+						  </div>
+						</div>
+						<div class="form-group" ng-class="{ 'has-error': borrowerform.lastName.$touched && borrowerform.lastName.$invalid }">
+						  <label for="lastName" class="col-sm-4">Last Name</label>
+						  <div class="col-sm-8">
+						    <input ng-model="borrower.lastName" type="text" class="form-control" id="lastName" name="lastName"  placeholder="Last Name" required="true"></input>
+						    <div class="help-block" ng-messages="borrowerform.lastName.$error" ng-if="borrowerform.lastName.$touched">
+						        <p ng-message="required">Enter valid last name</p>
+						    </div>
+						  </div>
+						</div>
+						<div class="form-group" ng-class="{ 'has-error': borrowerform.ssn.$touched && borrowerform.ssn.$invalid }">
+						  <label for="ssn" class="col-sm-4">SSN</label>
+						  <div class="col-sm-8">
+						    <input ng-model="borrower.ssn" type="text" class="form-control" id="ssn" name="ssn"  placeholder="Social Security Number" required="true"></input>
+						    <span class="error" ng-show="isDuplicateBorrower">Enter unique Social Security Number</span>
+						    <div class="help-block" ng-messages="borrowerform.ssn.$error" ng-if="borrowerform.ssn.$touched">
+						        <p ng-message="required">Enter valid social security number</p>
+						    </div>
+						  </div>
+						</div>
+						<div class="form-group" ng-class="{ 'has-error': borrowerform.email.$touched && borrowerform.email.$invalid }">
+						  <label for="email" class="col-sm-4">Email Address</label>
+						  <div class="col-sm-8">
+						    <input type="email" ng-model="borrower.email" class="form-control" id="email" name="email" placeholder="user@example.com" required="true"></input>
+						    <div class="help-block" ng-messages="borrowerform.email.$error" ng-if="borrowerform.email.$touched">
+						        <p ng-message="required">Enter valid email address</p>
+						    </div>
+						  </div>
+						</div>
+						<div class="form-group" ng-class="{ 'has-error': borrowerform.homePhone.$touched && borrowerform.homePhone.$invalid }">
+						  <label for="homePhone" class="col-sm-4">Home Phone</label>
+						  <div class="col-sm-8">
+						    <input ng-model="borrower.phone" type="text" class="form-control" id="homePhone" name="homePhone" placeholder="###-###-####" required="true"></input>
+						    <div class="help-block" ng-messages="borrowerform.homePhone.$error" ng-if="borrowerform.homePhone.$touched">
+						        <p ng-message="required">Enter valid phone number</p>
+						    </div>
+						  </div>
+						</div>
+						<div class="form-group" ng-class="{ 'has-error': borrowerform.address.$touched && borrowerform.address.$invalid }">
+						  <label for="address" class="col-sm-4">Address</label>
+						  <div class="col-sm-8">
+						    <input ng-model="borrower.address" type="text" class="form-control" id="address" name="address" placeholder="Address" required="true"></input>
+						    <div class="help-block" ng-messages="borrowerform.address.$error" ng-if="borrowerform.address.$touched">
+						        <p ng-message="required">Enter valid address</p>
+						    </div>
+						  </div>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<div class="form-group">
+					  <div class="col-sm-offset-0 col-sm-12">
+					    <span><button ng-click="borrowerform.$valid ? addBorrower() : ''" type="submit" class="btn btn-primary">Add Borrower</button></span>
+					     <span><button ng-click="cancel()" type="submit" class="btn btn-danger">Cancel</button></span>
+					  </div>
+					</div>
+				</div>
+	  		</md-dialog>
+  		</div>
+  	</div>
+  	<div class="row">
+  		<div class="col-md-3">
+  			<h3>Address</h3>
+  			<hr>
+  			<div>
+  				<p>800 West Campbell Road,</p> 
+  				<p>Richardson, TX 75080</p>
+				<p>(972)-883-2955</p>
+  			</div>
+  		</div>
+  		<div class="col-md-6">
+  			<h3>Timings</h3>
+  			<hr>
+
+  			<div class="row">
+				<div class="col-sm-4 pull-left"><label>Monday-Thursday: </label></div>
+				<div class="col-sm-8">Open 24 Hours</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-4 pull-left"><label>Friday: </label></div>
+				<div class="col-sm-8">Open 24 Hours - Close at Midnight</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-4 pull-left"><label>Saturday: </label></div>
+				<div class="col-sm-8">8am - Midnight</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-4 pull-left"><label>Sunday: </label></div>
+				<div class="col-sm-8">8am - Remain Open</div>
+			</div>
+  		</div>
+  	</div>
+</div>
+

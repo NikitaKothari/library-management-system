@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>UT Dallas Library</title>
+	
+		<!--bootstrap-->
+	    <link rel="stylesheet" href="custom/vendor/bootstrap/bootstrap.min.css"></link>
+	    <!-- Angular Material style sheet -->
+	    <link rel="stylesheet" href="custom/vendor/angular/angular-material.min.css"></link>
+	    <link rel="stylesheet" href="custom/css/style.css"></link>
+	    <link rel="stylesheet" href="custom/vendor/ng-table/ng-table.min.css">
+	</head>
+	<body ng-app="angularApp" ng-cloak>
+		<div>
+			<div class="page-header1">
+				<div class="row">
+					<div class="col-md-1">
+						<img class="topimage" src="custom/images/books.png">
+					</div>
+					<div class="col-md-11">
+						<h1>UT Dallas Library</h1>
+					</div>
+				</div>
+			</div>
+			<div>
+				<ul class="nav nav-pills">
+		  			<li role="presentation"><a href="#/">Home</a></li>
+		  			<li role="presentation"><a href="#/">Profile</a></li>
+		  			<li role="presentation"><a href="#/">Messages</a></li>
+				</ul>
+			</div>
+		</div>
+		
+		<div class="viewContainer">
+			<div ng-view>
+			</div>
+		</div>
+	
+		<script src="custom/vendor/angular/angular.js"></script>
+		<script src="custom/vendor/angular/angular-resource.js"></script>
+		<script src="custom/vendor/angular/angular-animate.min.js"></script>
+		<script src="custom/vendor/angular/angular-aria.min.js"></script>
+		<script src="custom/vendor/angular/angular-messages.min.js"></script>
+		<script src="custom/vendor/angular/angular-route.js"></script>
+		<!-- Angular Material Library -->
+		<script src="custom/vendor/angular/angular-material.min.js"></script>
+		
+		<!-- ng-table -->
+		<script src="custom/vendor/ng-table/ng-table.min.js"></script>
+		<!-- ng-message -->
+		<script src="custom/vendor/ng-message/ng-message.js"></script>
+		
+		<script src="custom/main.js"></script>
+		<script src="custom/controllers/home/homeCtrl.js"></script>
+		<script src="custom/controllers/search/searchCtrl.js"></script>
+		<script src="custom/controllers/book/bookCtrl.js"></script>
+		<script src="custom/controllers/checkoutByBorrower/checkoutCtrl.js"></script>
+		<script src="custom/controllers/checkoutByBook/checkoutCtrl.js"></script>
+		<script src="custom/controllers/payDue/payDueCtrl.js"></script>
+		
+		<script src="custom/services/libraryService.js"></script>
+		<script src="custom/directive/directive.js"></script>
+		
+	</body>
+</html>
+
+
+

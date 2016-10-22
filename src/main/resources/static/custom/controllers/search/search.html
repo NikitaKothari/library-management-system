@@ -1,0 +1,52 @@
+<div>
+	<div class="row" ng-show="!isLoading">
+		<div class="col-md-3">
+			<div ng-show="title.length > 0">Search by title <label>{{title}}</label></div>
+			<div ng-show="autherName.length > 0">Search by author name <label>{{autherName}}</label></div>
+			<div ng-show="key.length > 0">Search by key <label>{{key}}</label></div>
+			<div>Total Books({{books.length}})</div>
+		</div>
+		
+		<div class="col-md-9">
+			<table ng-table="booksTable" class="table" ng-show="books.length > 0">
+			    <tr ng-repeat="book in $data track by $index">
+			    	<td>
+			            <img ng-src="{{book.url}}">
+			        </td>
+			        <td title="'Isbn'" sortable="'isbn'">
+			            {{ book.isbn }}</td>
+			        <td title="'Checkin this book'"  sortable="'title'">
+			            <a href="#/book?isbn={{book.isbn}}" ng-show="book.available">{{ book.title }}</a>
+			            <p ng-hide="book.available">{{ book.title }}</p>
+			            <p ng-repeat="authors in book.authers track by $index">
+							{{$index +1}}. {{authors.name}}
+						</p>
+						<p> publication: {{book.publication}}
+						</p>
+						<p ng-show="{{book.available}}">
+							<span class="circle_green"></span>&nbsp;{{'Available'}}
+						</p>
+						<p ng-hide="{{book.available}}">
+							<span class="circle_red"></span>&nbsp;{{ 'Not Available' }}
+						</p>
+			        </td>
+			    </tr>
+			</table>
+			
+			<div class="row" id="noRecord" style="width:100%" ng-show="books.length == 0">
+	 			<h1>No record found</h1>
+			</div>
+		</div>
+	</div>
+	<div ng-show="isLoading" class="row">
+		<div class="col-md-5"></div>
+		<div class="col-md-2">
+			<img src="custom/images/loading.gif">
+		</div>
+	</div>
+</div>
+
+
+
+
+

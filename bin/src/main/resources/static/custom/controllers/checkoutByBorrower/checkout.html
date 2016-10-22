@@ -1,0 +1,118 @@
+<div>
+	<div class="row" ng-show="!isLoading">
+		<div class="col-md-6">
+			<div ng-repeat="book in books">
+				<div>
+					<h3>Book Details</h3>
+					<div class="row">
+						<label class="col-sm-4">Book Title </label>
+						<div class="col-sm-8">{{book.title}}</div>
+					</div>
+					<div class="row">
+						<label class="col-sm-4">Book ISBN </label>
+						<div class="col-sm-8">{{book.isbn}}</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-3">
+							<button ng-click="checkOut(book.bookLoans[0])" type="submit" class="btn btn-warning">Check Out</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="col-md-6">
+			<h3>Borrower Information</h3>
+			<div class="row">
+				<label class="col-sm-4">Card Id </label>
+				<div class="col-sm-8">{{borrower.cardId}}</div>
+			</div>
+			
+			<div class="row">
+				<label class="col-sm-4">First Name </label>
+				<div class="col-sm-8">{{borrower.firstName}}</div>
+			</div>
+			
+			<div class="row">
+				<label class="col-sm-4">Last Name </label>
+				<div class="col-sm-8">{{borrower.lastName}}</div>
+			</div>
+			
+			<div class="row">
+				<label class="col-sm-4">Email </label>
+				<div class="col-sm-8">{{borrower.email}}</div>
+			</div>
+			
+			<div class="row">
+				<label class="col-sm-4">Social Security Number </label>
+				<div class="col-sm-8">{{borrower.ssn}}</div>
+			</div>
+			
+			<div class="row">
+				<label class="col-sm-4">Address </label>
+				<div class="col-sm-8">{{borrower.address}}</div>
+			</div>
+			
+			<div class="row">
+				<label class="col-sm-4">Phone Number </label>
+				<div class="col-sm-8">{{borrower.phone}}</div>
+			</div>
+		</div>
+	</div>
+
+	<div ng-show="isLoading" class="row">
+		<div class="col-md-5"></div>
+		<div class="col-md-2">
+			<img src="custom/images/loading.gif">
+		</div>
+	</div>
+	
+	<div style="display:none;">
+	    <div class="md-dialog-container" id="confirmDialogCheckOutBorrower">
+		     <md-dialog>
+				<div class="modal-header">
+		            <h3 class="modal-title" id="modal-title">Check Out</h3>
+		        </div>
+		        <div class="modal-body" id="modal-body">
+				  <div>
+				    Book is Successfully Checked out.
+				  </div>
+				</div>
+				<div class="modal-footer">
+					<div class="form-group">
+					    <div class="col-sm-offset-4 col-sm-8">
+					    	<span><button ng-click="ok()" type="submit" class="btn btn-primary">ok</button></span>
+					      <span><button ng-click="goToHome()" type="submit" class="btn btn-warning">Go Back to Home</button></span>
+					    </div>
+				  	</div>
+				</div>
+		  </md-dialog>
+	  	</div>
+	 </div>
+	 
+	 <div style="display:none;">
+	    <div class="md-dialog-container" id="confirmDialogCheckOutBorrowerPayDue">
+		     <md-dialog>
+				<div class="modal-header">
+		            <h3 class="modal-title" id="modal-title">Check Out</h3>
+		        </div>
+		        <div class="modal-body" id="modal-body">
+				  <div>
+				    Book is Successfully Checked out. Fine is applicable for this book.
+				  </div>
+				</div>
+				<div class="modal-footer">
+					<div class="form-group">
+					    <div class="col-sm-offset-4 col-sm-8">
+					    	<span><button ng-click="payDue()" type="submit" class="btn btn-primary">Pay Due</button></span>
+					    	<span><button ng-click="ok()" type="submit" class="btn btn-primary">Ok</button></span>
+					      <span><button ng-click="goToHome()" type="submit" class="btn btn-warning">Go Back to Home</button></span>
+					    </div>
+				  	</div>
+				</div>
+		  </md-dialog>
+	  	</div>
+	 </div>
+</div>
+
+
