@@ -1,0 +1,58 @@
+Skip to content
+This repository
+Search
+Pull requests
+Issues
+Gist
+ @erics273
+ Watch 2,022
+  Star 10,272
+ Fork 8,325 spring-projects/spring-framework
+ Code  Pull requests 129  Wiki  Pulse  Graphs
+Branch: master Find file Copy pathspring-framework/.gitignore
+fe79219  on Jul 18
+@bclozel bclozel Reorganize spring-web-reactive .gitignore
+6 contributors @dsyer @philwebb @rwinch @jhoeller @rstoyanchev @bclozel
+RawBlameHistory     41 lines (37 sloc)  506 Bytes
+*.java.hsp
+*.sonarj
+*.sw*
+.DS_Store
+.settings
+.springBeans
+bin
+build.sh
+integration-repo
+ivy-cache
+jxl.log
+jmx.log
+derby.log
+spring-test/test-output/
+.gradle
+argfile*
+pom.xml
+activemq-data/
+
+classes/
+/build
+buildSrc/build
+/spring-*/build
+/src/asciidoc/build
+target/
+
+# Eclipse artifacts, including WTP generated manifests
+.classpath
+.project
+spring-*/src/main/java/META-INF/MANIFEST.MF
+
+# IDEA artifacts and output dirs
+*.iml
+*.ipr
+*.iws
+.idea
+out
+test-output
+atlassian-ide-plugin.xml
+.gradletasknamecache
+Contact GitHub API Training Shop Blog About
+© 2016 GitHub, Inc. Terms Privacy Security Status Help
